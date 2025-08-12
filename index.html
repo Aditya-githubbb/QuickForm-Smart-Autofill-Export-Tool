@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickForm: Smart Autofill & Export Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="FEVICON.png" type="image/x-icon">
+</head>
+<body>
+    <div class="floating-particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>✨ QuickForm</h1>
+            <p>Smart Autofill & Export Tool - Fill forms instantly, export as PDF</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('profile')">👤 Profile Setup</button>
+            <button class="tab" onclick="switchTab('demo')">📝 Demo Forms</button>
+            <button class="tab" onclick="switchTab('export')">📄 Export PDF</button>
+        </div>
+
+        <div id="profile-tab" class="tab-content active">
+            <div class="main-content">
+                <div class="panel">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        Personal Information
+                    </h2>
+                    <form id="profileForm">
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <textarea id="address" name="address" rows="2"></textarea>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">ZIP Code</label>
+                                <input type="text" id="zipCode" name="zipCode">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title/Position</label>
+                            <input type="text" id="jobTitle" name="jobTitle">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        Saved Profile
+                    </h2>
+                    <div id="profileSummary" class="profile-summary">
+                        <p style="text-align: center; color: #718096; font-style: italic;">No profile saved yet. Fill out the form and click "Save Profile" to get started.</p>
+                    </div>
+                    <div class="action-buttons" style="margin-top: 20px;">
+                        <button type="button" class="btn" onclick="saveProfile()">
+                            💾 Save Profile
+                        </button>
+                        <button type="button" class="btn btn-clear" onclick="clearProfile()">
+                            🗑️ Clear Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="demo-tab" class="tab-content">
+            <div class="panel">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zM16 18H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg>
+                    Demo Forms - Practice Autofill
+                </h2>
+                
+                <div class="demo-form">
+                    <h3 style="margin-bottom: 20px; color: #4a5568;">📋 Job Application Form</h3>
+                    <form id="jobForm">
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Applicant First Name</label>
+                                <input type="text" name="firstName" class="autofill-target">
+                            </div>
+                            <div class="form-group">
+                                <label>Applicant Last Name</label>
+                                <input type="text" name="lastName" class="autofill-target">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" class="autofill-target">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="tel" name="phone" class="autofill-target">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Address</label>
+                            <textarea name="address" rows="2" class="autofill-target"></textarea>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" name="city" class="autofill-target">
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="text" name="zipCode" class="autofill-target">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Previous Company</label>
+                            <input type="text" name="company" class="autofill-target">
+                        </div>
+                        <div class="form-group">
+                            <label>Previous Position</label>
+                            <input type="text" name="jobTitle" class="autofill-target">
+                        </div>
+                    </form>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="autoFillForm('jobForm')">
+                            ⚡ Auto-Fill Form
+                        </button>
+                        <button type="button" class="btn btn-clear" onclick="clearForm('jobForm')">
+                            🧹 Clear Form
+                        </button>
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; border: none; height: 1px; background: linear-gradient(to right, transparent, #cbd5e0, transparent);">
+
+                <div class="demo-form">
+                    <h3 style="margin-bottom: 20px; color: #4a5568;">🎓 Scholarship Application</h3>
+                    <form id="scholarshipForm">
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Student First Name</label>
+                                <input type="text" name="firstName" class="autofill-target">
+                            </div>
+                            <div class="form-group">
+                                <label>Student Last Name</label>
+                                <input type="text" name="lastName" class="autofill-target">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="autofill-target">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" class="autofill-target">
+                        </div>
+                        <div class="form-group">
+                            <label>Home Address</label>
+                            <textarea name="address" rows="2" class="autofill-target"></textarea>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>City/Town</label>
+                                <input type="text" name="city" class="autofill-target">
+                            </div>
+                            <div class="form-group">
+                                <label>ZIP/Postal Code</label>
+                                <input type="text" name="zipCode" class="autofill-target">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>School/Institution</label>
+                            <input type="text" name="company" class="autofill-target" placeholder="Enter your school name">
+                        </div>
+                        <div class="form-group">
+                            <label>Field of Study</label>
+                            <input type="text" name="jobTitle" class="autofill-target" placeholder="e.g., Computer Science">
+                        </div>
+                    </form>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="autoFillForm('scholarshipForm')">
+                            ⚡ Auto-Fill Form
+                        </button>
+                        <button type="button" class="btn btn-clear" onclick="clearForm('scholarshipForm')">
+                            🧹 Clear Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="export-tab" class="tab-content">
+            <div class="panel" style="text-align: center;">
+                <h2 style="justify-content: center;">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM16 18H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg>
+                    Export Your Profile
+                </h2>
+                <p style="color: #718096; margin-bottom: 30px; font-size: 1.1rem;">Generate a professional PDF with all your saved information</p>
+                
+                <div id="exportPreview" class="profile-summary" style="text-align: left; max-width: 500px; margin: 0 auto;">
+                    <p style="text-align: center; color: #718096; font-style: italic;">Save your profile first to see the export preview</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-export" onclick="exportToPDF()">
+                        📄 Download PDF
+                    </button>
+                    <button type="button" class="btn" onclick="printProfile()">
+                        🖨️ Print Profile
+                    </button>
+                </div>
+                
+                <div class="loading" id="loadingExport">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 15px; color: #718096;">Generating your PDF...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="statusMessage" class="status-message"></div>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>Made with <span class="heart">❤️</span> by: Aditya Verma, Harshit Singh, Mohammad Vasim, Utkarsh Mishra.</p>
+            </div>
+        </footer>
+    </div>
+   <script src="app.js"></script>
+</body>
+</html>
